@@ -48,7 +48,7 @@ class ConfigController extends Controller
         }
         
         if(!empty($request->file('logomarca'))){
-            !is_null($config->marcadagua) && Storage::delete($config->logomarca);
+            !is_null($config->logomarca) && Storage::delete($config->logomarca);
             $config->logomarca = '';
         }
         

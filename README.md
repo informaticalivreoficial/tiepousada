@@ -1,7 +1,7 @@
 <p align="center"><a href="https://informaticalivre.com.br" target="_blank"><img src="https://informatica-livre.s3.us-east-2.amazonaws.com/infolivre/configuracoes/logomarca-informatica-livre.png" width="400"></a></p>
 
 
-# Sistema Pousada Cavalo Marinho
+# Sistema Pousada do Tié
 
 Sistema de gerenciamento de Pousada, Apartamentos, Reservas e CMS acoplado.
 
