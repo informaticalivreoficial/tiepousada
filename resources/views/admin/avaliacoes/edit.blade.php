@@ -89,7 +89,7 @@
                                     </div>
                                     <div class="col-12 mb-2">   
                                         <label class="labelforms text-muted"><b>Avaliação</b></label>
-                                        <textarea id="inputDescription" class="form-control" rows="4" name="content">{{ old('content') ?? $avaliacao->content }}</textarea>                                                      
+                                        <textarea id="inputDescription" class="form-control" rows="4" name="questao_7_content">{{ old('questao_7_content') ?? $avaliacao->questao_7_content }}</textarea>                                                      
                                     </div>                                                                            
                                 </div>
                                 <div class="row text-right">

@@ -42,17 +42,14 @@ class WebController extends Controller
                     ->inRandomOrder()
                     ->limit(4)
                     ->get();
-        $pagina = Post::postson()->inRandomOrder()->limit(1)->get();
-        $artigos = Post::orderBy('created_at', 'DESC')->where('tipo', 'artigo')
+        $paginas = Post::orderBy('created_at', 'DESC')->where('tipo', 'pagina')
                     ->postson()
-                    ->limit(6)
+                    ->limit(3)
                     ->get();
         $slides = Slide::orderBy('created_at', 'DESC')
                     ->available()
                     ->where('expira', '>=', Carbon::now())
                     ->get();   
-        $galerias = Galeria::orderBy('created_at', 'DESC')->available()->limit(3)->get();
-        $imagens = GaleriaGb::orderBy('created_at', 'DESC')->get();
         
         $head = $this->seo->render($this->configService->getConfig()->nomedosite ?? 'Informática Livre',
             $this->configService->getConfig()->descricao ?? 'Informática Livre desenvolvimento de sistemas web desde 2005',
@@ -62,13 +59,8 @@ class WebController extends Controller
 
 		return view('web.'.$this->configService->getConfig()->template.'.home',[
             'head' => $head,            
-            'slides' => $slides,
-            'apartamentos' => $apartamentos,
-            'artigos' => $artigos,
-            'acomodacoes' => $acomodacoes,
-            'galerias' => $galerias,
-            'imagens' => $imagens,
-            'pagina' => $pagina
+            'slides' => $slides,           
+            'paginas' => $paginas
 		]);
     }
 
