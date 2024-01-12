@@ -1,100 +1,88 @@
 @extends("web.{$configuracoes->template}.master.master")
 
 @section('content')
-<section class="banner-tems text-center">
-    <div class="container">
-        <div class="banner-content">
-            <h2 class="h2sombra">Atendimento</h2>
-        </div>
+
+<section id="contact-page" class="container">
+ 
+    <h3><span><b>Atendimento</b></span></h3>
+    
+    <div class="contact-info clearfix"> 
+        <div class="contact-info-contnet">
+            <div class="col-md-4 col-xs-4">
+                <p><i style="font-size:22px;color: #3AA04E;" class="fa fa-map-marker"></i></p>
+                @if($configuracoes->rua)	
+                    {{$configuracoes->rua}}
+                    @if($configuracoes->num)
+                        , {{$configuracoes->num}}
+                    @endif
+                    @if($configuracoes->bairro)
+                        , {{$configuracoes->bairro}}
+                    @endif
+                    @if($configuracoes->cidade)  
+                        <br />{{$configuracoes->cidade}}/{{$configuracoes->uf}}
+                    @endif
+                @endif
+            </div> 
+        
+            <div class="col-md-4 col-xs-4">
+                <p><i style="font-size:22px;color: #3AA04E;" class="fa fa-phone"></i></p>
+                @if($configuracoes->telefone1)
+                    {{$configuracoes->telefone1}}
+                @endif
+                @if($configuracoes->telefone2 && $configuracoes->telefone1)
+                    <br />{{$configuracoes->telefone2}}
+                @else
+                    {{$configuracoes->telefone2}}
+                @endif
+                @if($configuracoes->telefone3 && $configuracoes->telefone1 || $configuracoes->telefone2)
+                    <br />{{$configuracoes->telefone3}}
+                @else
+                    {{$configuracoes->telefone3}}
+                @endif            
+            </div> 
+            
+            <div class="col-md-4 col-xs-4">
+                <p><i style="font-size:22px;color: #3AA04E;" class="fa fa-envelope"></i></p>
+                @if($configuracoes->email)
+                    <a href="mailto:{{$configuracoes->email}}">{{$configuracoes->email}}</a>
+                @endif
+                @if($configuracoes->email1 && $configuracoes->email)
+                    <br /><a href="mailto:{{$configuracoes->email1}}">{{$configuracoes->email1}}</a>
+                @else
+                    <a href="mailto:{{$configuracoes->email1}}">{{$configuracoes->email1}}</a>
+                @endif             
+            </div> 
+        </div> 
     </div>
-</section>
-
-<section class="section-contact">
-    <div class="container">
-        <div class="contact">
-            <div class="row">
-                <div class="col-md-6 col-lg-5">
-                    <div class="text">                            
-                        <p></p>
-                        <ul>
-                            <li>
-                                @if($configuracoes->rua)	
-                                        <i class=" fa ion-ios-location-outline"></i> {{$configuracoes->rua}}
-                                    @if($configuracoes->num)
-                                        , {{$configuracoes->num}}
-                                    @endif
-                                    @if($configuracoes->bairro)
-                                        , {{$configuracoes->bairro}}
-                                    @endif
-                                    @if($configuracoes->cidade)  
-                                        - {{\App\Helpers\Cidade::getCidadeNome($configuracoes->cidade, 'cidades')}}
-                                    @endif
-                                @endif
-                            </li>
-
-                            @if ($configuracoes->telefone1)                                
-                                <li><i class="fa fa-phone" aria-hidden="true"></i>
-                                    <a href="tel:{{\App\Helpers\Renato::limpatelefone($configuracoes->telefone1)}}">{{$configuracoes->telefone1}}</a>
-                                </li>                                                    
-                            @endif   
-                            @if ($configuracoes->telefone2)
-                                <li><i class="fa fa-phone" aria-hidden="true"></i>
-                                    <a href="tel:{{\App\Helpers\Renato::limpatelefone($configuracoes->telefone2)}}">{{$configuracoes->telefone2}}</a>
-                                </li>                        
-                            @endif   
-                            @if ($configuracoes->telefone3)
-                                <li><i class="fa fa-phone" aria-hidden="true"></i>
-                                    <a href="tel:{{\App\Helpers\Renato::limpatelefone($configuracoes->telefone3)}}">{{$configuracoes->telefone3}}</a>
-                                </li>                        
-                            @endif   
-                            @if ($configuracoes->whatsapp)
-                                <li>
-                                    <a href="{{\App\Helpers\WhatsApp::getNumZap($configuracoes->whatsapp ,'Atendimento '.$configuracoes->nomedosite)}}">WhatsApp: {{$configuracoes->whatsapp}}</a>
-                                </li>                        
-                            @endif                         
-                        </ul>
-                    </div>
+     
+    
+    <div class="contact-us-content col-md-12"> 
+        <!-- Conctact Form --> 
+        <form id="contact-form" name="contact-form" action="" method="post" class="j_formsubmit" autocomplete="off">
+            @csrf 
+            <div id="js-contact-result"></div>
+            
+            <!-- HONEYPOT -->
+            <input type="hidden" class="noclear" name="bairro" value="" />
+            <input type="text" class="noclear" style="display: none;" name="cidade" value="" />
+            <div class="row form_hide"> 
+                <div class="name-field col-md-12 col-xs-12 col-sm-12 col-lg-4"> 
+                    <input type="text" id="name-field" name="nome" placeholder="Seu nome"/> 
+                </div> 
+                <div class="email-field col-md-12 col-xs-6 col-sm-6 col-lg-4"> 
+                    <input type="email" id="email-field" name="email" placeholder="Seu email"/> 
                 </div>
-                
-                <div class="col-md-6 col-lg-6 col-lg-offset-1">
-                    <div class="contact-form">
-                        <form method="post" action="" class="j_formsubmit" autocomplete="off">  
-                            @csrf                          
-                            <div class="row">                                
-                                <div class="col-sm-12">
-                                    <div id="js-contact-result"></div>
-                                </div>
-                                <div class="form_hide">
-                                    <div class="col-sm-6">
-                                        <!-- HONEYPOT -->
-                                        <input type="hidden" class="noclear" name="bairro" value="" />
-                                        <input type="text" class="noclear" style="display: none;" name="cidade" value="" />
-                                        <input type="text" class="field-text" placeholder="Seu Nome" name="nome"/>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <input type="text" class="field-text" placeholder="Seu E-mail" name="email"/>
-                                    </div>                                        
-                                    <div class="col-sm-12">
-                                        <textarea cols="30" rows="10" placeholder="Mensagem" name="mensagem" class="field-textarea"></textarea>
-                                    </div>
-                                    
-                                    <div class="col-sm-6">
-                                        <button type="submit" class="btn btn-room btncheckout">Enviar Agora</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
+                <div class="phone-field col-md-12 col-xs-6 col-sm-6 col-lg-4"> 
+                    <input type="tel" name="telefone" placeholder="Seu telefone"/> 
                 </div>
             </div>
-        </div>
-    </div>
+            <div class="message-field row form_hide"> 
+                <textarea name="mensagem" id="message-field" class="noclear" placeholder="Digite sua mensagem"></textarea>
+                <button style="padding: 20px; width: 200px; font-size: 16px;" type="submit" class="contact-submit btn colored btncheckout" name="submit">Enviar Agora</button>
+            </div> 
+        </form>
+    </div> 
 </section>
-<!-- END / CONTACT -->
-
-<div class="section-map">
-    {!!$configuracoes->mapa_google!!}
-</div>
 
 @endsection
 

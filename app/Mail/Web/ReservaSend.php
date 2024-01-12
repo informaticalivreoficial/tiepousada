@@ -33,23 +33,20 @@ class ReservaSend extends Mailable
     {
         return $this->replyTo($this->data['reply_email'], $this->data['reply_name'])
             ->to($this->data['siteemail'], $this->data['sitename'])
-            ->cc('reservas@pousadacavalomarinho.com.br')
+            //->cc('reservas@pousadacavalomarinho.com.br')
             ->bcc('atendimento@ubatubatimes.com.br')
             ->from($this->data['siteemail'], $this->data['sitename'])
             ->subject('✔️ Pré-reserva: ' . $this->data['reply_name'])
             ->markdown('emails.reserva', [
                 'nome' => $this->data['reply_name'],
                 'email' => $this->data['reply_email'],
-                'whatsapp' => $this->data['whatsapp'],
-                'estado' => $this->data['estado'],
-                'cidade' => $this->data['cidade'],
+                'telefone' => $this->data['telefone'],
                 'checkin' => $this->data['checkin'],
                 'checkout' => $this->data['checkout'],
                 'adultos' => $this->data['adultos'],
                 'criancas' => $this->data['criancas'],
-                //'ocupacao' => $this->data['ocupacao'],
                 'codigo' => $this->data['codigo'],
-                'apartamento' => $this->data['apartamento']
+                'mensagem' => $this->data['mensagem']
         ]);
     }
 }

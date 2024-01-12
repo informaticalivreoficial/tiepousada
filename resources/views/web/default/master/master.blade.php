@@ -52,8 +52,8 @@
                     <img style="z-index:1;margin-bottom: -15px;" src="{{$configuracoes->getLogomarca()}}" alt="{{$configuracoes->nomedosite}}" />     
                 </div>
                 @if($configuracoes->telefone1)
-                    <ul id="login-box" class="list-inline">
-                        <li style="font-size:22px;">
+                    <ul class="list-inline">
+                        <li style="font-size:22px !important;">
                             <i style="font-size:22px;color: #3AA04E;" class="fa fa-phone"></i>&nbsp; <b>{{$configuracoes->telefone1}}</b>
                         </li>
                     </ul>

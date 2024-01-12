@@ -33,13 +33,14 @@ class Atendimento extends Mailable
     {
         return $this->replyTo($this->data['reply_email'], $this->data['reply_name'])
             ->to($this->data['siteemail'], $this->data['sitename'])
-            ->cc('reservas@pousadacavalomarinho.com.br')
+            //->cc('reservas@pousadacavalomarinho.com.br')
             ->bcc('atendimento@ubatubatimes.com.br')
             ->from($this->data['siteemail'], $this->data['sitename'])
             ->subject('#Atendimento: ' . $this->data['reply_name'])
             ->markdown('emails.atendimento', [
                 'nome' => $this->data['reply_name'],
                 'email' => $this->data['reply_email'],
+                'telefone' => $this->data['reply_telefone'],
                 'mensagem' => $this->data['mensagem']
         ]);
     }

@@ -41,8 +41,7 @@ class SitemapController extends Controller
         ->setPriority(0.1));
 
         $paginas = Post::orderBy('created_at', 'DESC')
-                    ->where('id', '!=', 5)
-                    ->where('slug', '!=', 'atendimento')
+                    ->where('id', '!=', 6)
                     ->where('tipo', 'pagina')
                     ->get();
 
@@ -53,11 +52,11 @@ class SitemapController extends Controller
         }
 
         $sitemap->add('/atendimento');
-        $sitemap->add('/acomodacoes');
+        //$sitemap->add('/acomodacoes');
         $sitemap->add('/reservar');
         $sitemap->add('/politica-de-privacidade');
-        $sitemap->add('/galerias');
-        $sitemap->add('/blog');
+        //$sitemap->add('/galerias');
+        //$sitemap->add('/blog');
         $sitemap->writeToDisk('s3', Str::slug($configupdate->nomedosite) . '_sitemap.xml');        
         
         return response()->json(['success' => true]);

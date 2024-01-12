@@ -40,7 +40,6 @@
                         <th>Check in</th>
                         <th>Check out</th>
                         <th>Cliente</th>
-                        <th>Apartamento</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -51,7 +50,7 @@
                         <td class="text-center">{{$reserva->checkin}}</td>
                         <td class="text-center">{{$reserva->checkout}}</td>
                         <td>{{$reserva->userObject->name}} <a target="_blank" href="{{route('users.view', [ 'id' => $reserva->userObject->id])}}"><i class="fas fa-search"></i></a></td>
-                        <td>{{$reserva->apartamentoObject->titulo}} <a target="_blank" href="{{route('web.acomodacao', [ 'slug' => $reserva->apartamentoObject->slug])}}"><i class="fas fa-search"></i></a></td>
+                        <td></td>
                         <td class="acoes">
                             <input type="checkbox" data-onstyle="success" data-offstyle="warning" data-size="mini" class="toggle-class" data-id="{{ $reserva->id }}" data-toggle="toggle" data-style="slow" data-on="<i class='fas fa-check'></i>" data-off="<i style='color:#fff !important;' class='fas fa-exclamation-triangle'></i>" {{ $reserva->status == true ? 'checked' : ''}}>
                             <a data-toggle="tooltip" data-placement="top" title="Editar Reserva" href="{{route('reservas.edit',$reserva->id)}}" class="btn btn-xs btn-default"><i class="fas fa-pen"></i></a>

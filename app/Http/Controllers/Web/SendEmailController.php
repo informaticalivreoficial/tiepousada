@@ -53,6 +53,7 @@ class SendEmailController extends Controller
                 'siteemail' => env('MAIL_FROM_ADDRESS'),
                 'reply_name' => $request->nome,
                 'reply_email' => $request->email,
+                'reply_telefone' => $request->telefone,
                 'mensagem' => $request->mensagem
             ];
 
@@ -102,60 +103,11 @@ class SendEmailController extends Controller
 
     public function acomodacaoSend(Request $request)
     {   
-        $apartamento = Apartamento::where('id', $request->apart_id)->first();
-
-        if($request->tipo_reserva == 2){
-            if($request->empresa_nome == ''){
-                $json = "Por favor preencha o campo <strong>Nome da Empresa</strong>";
-                return response()->json(['error' => $json]);
-            }
-            if($request->cnpj == ''){
-                $json = "Por favor preencha o campo <strong>CNPJ da Empresa</strong>";
-                return response()->json(['error' => $json]);
-            }
-            if($request->telefone_empresa == ''){
-                $json = "Por favor preencha o campo <strong>Telefone da Empresa</strong>";
-                return response()->json(['error' => $json]);
-            }
-        }
-
-        if($request->cliente_nome == ''){
+        if($request->nome == ''){
             $json = "Por favor preencha o campo <strong>Nome</strong>";
             return response()->json(['error' => $json]);
         }
 
-        if(!\App\Helpers\Renato::validaCPF($request->cpf)){
-            $json = "O campo <strong>CPF</strong> está vazio ou não tem um formato válido!";
-            return response()->json(['error' => $json]);
-        }
-
-        if($request->rg == ''){
-            $json = "Por favor preencha o campo <strong>RG</strong>";
-            return response()->json(['error' => $json]);
-        }
-
-        $nasc = Carbon::createFromFormat('d/m/Y', $request->nasc)->format('d-m-Y');        
-        
-        if(Carbon::parse($nasc)->age < 18){
-            $json = "Data de nascimento inválida!";
-            return response()->json(['error' => $json]);
-        }
-
-        if($request->nasc == ''){
-            $json = "Por favor preencha o campo <strong>Dada de Nascimento</strong>";
-            return response()->json(['error' => $json]);
-        }
-        
-        if($request->whatsapp == ''){
-            $json = "Por favor preencha o campo <strong>WhatsApp</strong>";
-            return response()->json(['error' => $json]);
-        }
-
-        if($request->apart_id == ''){
-            $json = "Por favor escolha um <strong>apartamento</strong>";
-            return response()->json(['error' => $json]);
-        }
-        
         if(!filter_var($request->email, FILTER_VALIDATE_EMAIL)){
             $json = "O campo <strong>Email</strong> está vazio ou não tem um formato válido!";
             return response()->json(['error' => $json]);
@@ -180,66 +132,38 @@ class SendEmailController extends Controller
             $json = "Você selecionou uma <strong>Data do Check Out</strong> inválida!";
             return response()->json(['error' => $json]);
         }
+
+        if($request->num_adultos == ''){
+            $json = "Por favor selecione o número de  <strong>Adultos</strong>!";
+            return response()->json(['error' => $json]);
+        }
                 
         $data = [
             'sitename' => $this->configService->getConfig()->nomedosite,
             'siteemail' => env('MAIL_FROM_ADDRESS'),
             //Dados do Cliente
-            'reply_name' => $request->cliente_nome,
+            'reply_name' => $request->nome,
             'reply_email' => $request->email,
-            'cpf' => $request->cpf,
-            'rg' => $request->rg,
-            'nasc' => $request->nasc,
-            'cep' => $request->cep,
-            'rua' => $request->rua,
-            'bairro' => $request->bairro,
-            'num' => $request->num,
-            'whatsapp' => $request->whatsapp,
-            'estado' => $request->uf,
-            'cidade' => $request->cidade,
-            //Dados da reserva
-            //'ocupacao' => ($request->ocupacao == 1 ? 'Com Café da manhã' : 'Sem Café da manhã'),
+            'telefone' => $request->telefone,            
+            //Dados da reserva            
             'checkin' => $request->checkin,
             'checkout' => $request->checkout,
             'adultos' => $request->num_adultos,
             'criancas' => $request->num_cri_0_5,            
             'codigo' => '00'.rand(1,100000),
-            'apartamento' => $apartamento->titulo
+            'mensagem' => $request->mensagem, 
         ];
         
         $retorno = [
             'sitename' => $this->configService->getConfig()->nomedosite,
             'siteemail' => env('MAIL_FROM_ADDRESS'),
-            'reply_name' => $request->cliente_nome,
+            'reply_name' => $request->nome,
             'reply_email' => $request->email
         ];
         
-        $getEmpresa = Empresa::where('document_company', str_replace(['.', '-', '/', '(', ')', ' '], '', $request->cnpj))->first();
-        if($request->tipo_reserva == 2){                        
-            if(empty($getEmpresa)){
-                $empresa = [
-                    'alias_name' => $request->empresa_nome,
-                    'social_name' => $request->empresa_nome,
-                    'document_company' => $request->cnpj,
-                    'telefone' => $request->telefone_empresa
-                ];
-                $empresaCreate = Empresa::create($empresa);
-                $empresaCreate->save();
-            }            
-        }
-        
         $user = [
-            'name' => $request->cliente_nome,
-            'email' => $request->email,
-            'cpf' => $request->cpf,
-            'rg' => $request->rg,
-            'whatsapp' => $request->whatsapp,
-            'cep' => $request->cep,
-            'rua' => $request->rua,
-            'bairro' => $request->bairro,
-            'num' => $request->num,
-            'uf' => $request->uf,
-            'cidade' => $request->cidade,
+            'name' => $request->nome,
+            'email' => $request->email,       
             'email_verified_at' => Carbon::now(),
             'password' => bcrypt(Carbon::now()),
             'senha' => Str::random(20),
@@ -247,7 +171,7 @@ class SendEmailController extends Controller
             'client' => true,
             'status' => 1,
             'notasadicionais' => 'Cliente cadastrado pelo site'
-        ];        
+        ];  
         
         $getUser = User::where('email', $request->email)->first();
         if(!$getUser){
@@ -257,15 +181,13 @@ class SendEmailController extends Controller
         
         $reserva = [
             'cliente' => (!$getUser ? $userCreate->id : $getUser->id),
-            'apartamento' => $apartamento->id,
-            'empresa' => ($request->tipo_reserva == 2 && !empty($getEmpresa) ? $empresaCreate->id : null),
             'status' => 1,
             'adultos' => $request->num_adultos,
             'criancas_0_5' => $request->num_cri_0_5,
             'codigo' => $data['codigo'],
             'checkin' => Carbon::createFromFormat('d/m/Y', $request->checkin)->format('d/m/Y'),
             'checkout' => Carbon::createFromFormat('d/m/Y', $request->checkout)->format('d/m/Y'),
-            //'notasadicionais' => $data['ocupacao']
+            'notasadicionais' => $data['mensagem']
         ];
         
         $reservaCreate = Reservas::create($reserva);

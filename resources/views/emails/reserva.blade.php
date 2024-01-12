@@ -24,14 +24,12 @@
             <h1 style="font-size:20px; color:#000; background:#F4F4F4; padding:10px;">Código da reserva - {{$codigo}}</h1>
             <table>
                 <tr>
-                    <th style="width: 30%;text-align:left;">Apartamento</th>
                     <th style="text-align:center;">Check-in</th> 
                     <th style="text-align:center;">Check-out</th>                       
                     <th style="width: 25%;text-align:center;">----------</th>                        
                     <th style="text-align:center;">Quantidade</th>
                 </tr>
                 <tr>
-                    <td style="text-align:left;">{{$apartamento}}</td>
                     <td style="text-align:center;">{{$checkin}}</td>
                     <td style="text-align:center;">{{$checkout}}</td>
                     <td>Adultos</td>
@@ -40,12 +38,10 @@
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>
                     <td>Crianças de 0 a 5 anos</td>
                     <td style="text-align:center;">{{$criancas}}</td>                                            
                 </tr>               
                 <tr>
-                    <td></td>
                     <td></td>
                     <td></td>
                     <td><b>Total</b></td>
@@ -58,11 +54,11 @@
             <br />
             <strong>E-mail: </strong><strong style="color:#09F;">{{ $email }}</strong>
             <br />
-            <strong>WhatsApp: </strong><strong style="color:#09F;">{{ $whatsapp }}</strong>
-            <br />       
-            <strong>Cidade: </strong><strong style="color:#09F;">{{ $cidade }}/{{ $estado }}</strong> 
+            <strong>Telefone: </strong><strong style="color:#09F;">{{ $telefone }}</strong>
             <br />
             <strong>Observações: </strong> 
+            <br />
+            {{ $mensagem }}
             </p>   
             <p style="padding-left:10px;">
                 <a href="{{route('login')}}">Clique aqui para gerenciar as reservas! </a>
