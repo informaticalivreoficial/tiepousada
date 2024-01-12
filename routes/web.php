@@ -11,12 +11,12 @@ use App\Http\Controllers\Admin\{
     PostController,
     CatPostController,
     ConfigController,
-    EmpresaController,
     GaleriaController,
     MenuController,
     NewsletterController,
     ParceiroController,
     ReservaController,
+    SeloController,
     SitemapController,
     SlideController,
     WhatsappController
@@ -203,16 +203,15 @@ Route::prefix('admin')->middleware('auth')->group( function(){
     Route::post('avaliacoes/store', [AvaliacaoController::class, 'store'])->name('avaliacoes.store');
     Route::get('avaliacoes', [AvaliacaoController::class, 'index'])->name('avaliacoes.index');
 
-    //****************************** Empresas *******************************************/
-    Route::match(['post', 'get'], 'empresas/fetchCity', [EmpresaController::class, 'fetchCity'])->name('empresas.fetchCity');
-    Route::get('empresas/set-status', [EmpresaController::class, 'empresaSetStatus'])->name('empresas.empresaSetStatus');
-    Route::delete('empresas/deleteon', [EmpresaController::class, 'deleteon'])->name('empresas.deleteon');
-    Route::get('empresas/delete', [EmpresaController::class, 'delete'])->name('empresas.delete');
-    Route::put('empresas/{id}', [EmpresaController::class, 'update'])->name('empresas.update');
-    Route::get('empresas/{id}/edit', [EmpresaController::class, 'edit'])->name('empresas.edit');
-    Route::get('empresas/create', [EmpresaController::class, 'create'])->name('empresas.create');
-    Route::post('empresas/store', [EmpresaController::class, 'store'])->name('empresas.store');
-    Route::get('/empresas', [EmpresaController::class, 'index'])->name('empresas.index');
+    //****************************** Selos *******************************************/
+    Route::get('selos/set-status', [SeloController::class, 'seloSetStatus'])->name('selo.SetStatus');
+    Route::delete('selos/deleteon', [SeloController::class, 'deleteon'])->name('selos.deleteon');
+    Route::get('selos/delete', [SeloController::class, 'delete'])->name('selos.delete');
+    Route::put('selos/{id}', [SeloController::class, 'update'])->name('selos.update');
+    Route::get('selos/{id}/edit', [SeloController::class, 'edit'])->name('selos.edit');
+    Route::get('selos/create', [SeloController::class, 'create'])->name('selos.create');
+    Route::post('selos/store', [SeloController::class, 'store'])->name('selos.store');
+    Route::get('/selos', [SeloController::class, 'index'])->name('selos.index');
 
     //****************************** Menu *******************************************/
     Route::get('menus/set-status', [MenuController::class, 'menuSetStatus'])->name('menus.menuSetStatus');

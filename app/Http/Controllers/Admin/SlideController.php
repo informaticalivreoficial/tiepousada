@@ -10,7 +10,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Slide;
 use App\Http\Requests\Admin\Slide as SlideRequest;
-use App\Support\Cropper;
 
 class SlideController extends Controller
 {

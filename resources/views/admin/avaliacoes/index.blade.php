@@ -38,7 +38,7 @@
                     <thead>
                         <tr>
                             <th>Nome</th>
-                            <th class="text-center">Região</th>
+                            <th class="text-center">Cidade/UF</th>
                             <th class="text-center">Check out</th>
                             <th class="text-center">Avaliado em</th>
                             <th>Ações</th>
@@ -49,7 +49,7 @@
                         <tr style="{{ ($avaliacao->status == '1' ? '' : 'background: #fffed8 !important;')  }}">
                             
                             <td>{{$avaliacao->name}}</td>
-                            <td class="text-center">{{$avaliacao->regiao}}</td>
+                            <td class="text-center">{{$avaliacao->cidade}}/{{$avaliacao->uf}}</td>
                             <td class="text-center">{{$avaliacao->checkout ?? '--------'}}</td>
                             <td class="text-center">{{$avaliacao->created_at}}</td>
                             <td>

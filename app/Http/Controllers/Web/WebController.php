@@ -11,11 +11,13 @@ use Illuminate\Support\Facades\Storage;
 
 use App\Models\{
     Apartamento,
+    Avaliacoes,
     Post,
     CatPost,
     Galeria,
     GaleriaGb,
     Newsletter,
+    Selo,
     Slide,
     User
 };
@@ -36,12 +38,6 @@ class WebController extends Controller
 
     public function home()
     {
-        $acomodacoes = Apartamento::available()->get();
-        $apartamentos = Apartamento::available()
-                    ->where('exibir_home', 1)
-                    ->inRandomOrder()
-                    ->limit(4)
-                    ->get();
         $paginas = Post::orderBy('created_at', 'DESC')->where('tipo', 'pagina')
                     ->postson()
                     ->limit(3)
@@ -49,7 +45,12 @@ class WebController extends Controller
         $slides = Slide::orderBy('created_at', 'DESC')
                     ->available()
                     ->where('expira', '>=', Carbon::now())
-                    ->get();   
+                    ->get(); 
+        $avaliacoes = Avaliacoes::orderBy('created_at', 'DESC')
+                    ->available()
+                    ->inRandomOrder()
+                    ->limit(6)
+                    ->get();        
         
         $head = $this->seo->render($this->configService->getConfig()->nomedosite ?? 'Informática Livre',
             $this->configService->getConfig()->descricao ?? 'Informática Livre desenvolvimento de sistemas web desde 2005',
@@ -60,22 +61,9 @@ class WebController extends Controller
 		return view('web.'.$this->configService->getConfig()->template.'.home',[
             'head' => $head,            
             'slides' => $slides,           
-            'paginas' => $paginas
+            'paginas' => $paginas,
+            'avaliacoes' => $avaliacoes
 		]);
-    }
-
-    public function quemsomos()
-    {
-        $paginaQuemSomos = Post::where('tipo', 'pagina')->postson()->where('id', 5)->first();
-        $head = $this->seo->render('Quem Somos - ' . $this->configService->getConfig()->nomedosite,
-            $this->configService->getConfig()->descricao ?? 'Informática Livre desenvolvimento de sistemas web desde 2005',
-            route('web.quemsomos'),
-            $this->configService->getConfig()->getMetaImg() ?? 'https://informaticalivre.com/media/metaimg.jpg'
-        );
-        return view('web.'.$this->configService->getConfig()->template.'.quem-somos',[
-            'head' => $head,
-            'paginaQuemSomos' => $paginaQuemSomos
-        ]);
     }
 
     public function politica()

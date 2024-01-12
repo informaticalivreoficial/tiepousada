@@ -1,6 +1,7 @@
 @extends("web.{$configuracoes->template}.master.master")
 
 @section('content')
+
     {{--SLIDER--}}
     <section id="slider">
         <ul class="bxslider">
@@ -108,4 +109,32 @@
         </ul>
     </section>
 
+    @if (!empty($avaliacoes) && $avaliacoes->count() > 0)
+        <section id="testimonials" data-background="parallax">
+            <div id="testimonials-container">
+                <h3><span><b>Depoimento</b> de Hóspedes</span></h3>
+                <div id="testimonials-content" class="container" data-animation="fadeInUp">
+                    <div id="testimonials-slider" class="owl-carousel owl-theme">
+                        @foreach($avaliacoes as $depoimento)
+                            <div class="item" style="min-height:285px;">
+                                <cite>{{$depoimento->name}}</cite>
+                                <blockquote>"{{$depoimento->questao_7_content}}"<br /><br />
+                                    {{$depoimento->cidade}} - {{$depoimento->uf}}
+                                </blockquote>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif    
+
+@endsection
+
+@section('css')
+    <style>
+        #testimonials {
+            background: url({{url('frontend/'.$configuracoes->template.'/assets/images/testimonials_bg.jpg')}}) center top no-repeat;
+        }
+    </style>
 @endsection

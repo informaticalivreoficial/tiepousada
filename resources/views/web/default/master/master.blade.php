@@ -43,174 +43,182 @@
  </head>
  <body>
 
-    {{--HEADER--}}
-    <div id="main-header-top"> 
-        <div class="main-header-top-container container">        
-            <div id="top-logo">
-                <img style="z-index:1;margin-bottom: -15px;" src="{{$configuracoes->getLogomarca()}}" alt="{{$configuracoes->nomedosite}}" />     
-            </div>
-            @if($configuracoes->telefone1)
-                <ul id="login-box" class="list-inline">
-                    <li style="font-size:22px;">
-                        <i style="font-size:22px;color: #3AA04E;" class="fa fa-phone"></i>&nbsp; <b>{{$configuracoes->telefone1}}</b>
-                    </li>
-                </ul>
-            @endif  
-        </div> 
-    </div>
+    <div class="main-wrapper">
 
-    <header id="main-header">         
-        <div class="header-content container"> 
-            <div class="menu-container">             
-                <nav id="main-menu"> 
-                    <ul class="main-menu"> 
-                        <li><a href="{{route('web.home')}}" class="current">Início</a></li>
-                        @if (!empty($Links) && $Links->count())                            
-                            @foreach($Links as $menuItem)                            
-                            <li {{($menuItem->children && $menuItem->parent ? 'class=dropdown' : '')}}>
-                                <a {{($menuItem->target == 1 ? 'target=_blank' : '')}} href="{{($menuItem->tipo == 'Página' ? route('web.pagina', [ 'slug' => ($menuItem->post != null ? $menuItem->PostObject->slug : '#') ]) : $menuItem->url)}}" {{($menuItem->children && $menuItem->parent ? 'class=dropdown-toggle data-toggle=dropdown' : '')}}>{{ $menuItem->titulo }}{!!($menuItem->children && $menuItem->parent ? "<b class=\"caret\"></b>" : '')!!}</a>
-                                @if( $menuItem->children && $menuItem->parent)
-                                <ul class="dropdown-menu icon-fa-caret-up submenu-hover">
-                                    @foreach($menuItem->children as $subMenuItem)
-                                    <li><a {{($subMenuItem->target == 1 ? 'target=_blank' : '')}} href="{{($subMenuItem->tipo == 'Página' ? route('web.pagina', [ 'slug' => ($subMenuItem->post != null ? $subMenuItem->PostObject->slug : '#') ]) : $subMenuItem->url)}}">{{ $subMenuItem->titulo }}</a></li>                                        
-                                    @endforeach
-                                </ul>
-                                @endif
-                            </li>
-                            @endforeach
-                        @endif
-                        <li><a href="{{route('web.reservar')}}">Reservas</a></li>                          
-                    </ul> 
-                </nav>   
-                <div id=main-menu-handle><span></span></div>
+        {{--HEADER--}}
+        <div id="main-header-top"> 
+            <div class="main-header-top-container container">        
+                <div id="top-logo">
+                    <img style="z-index:1;margin-bottom: -15px;" src="{{$configuracoes->getLogomarca()}}" alt="{{$configuracoes->nomedosite}}" />     
+                </div>
+                @if($configuracoes->telefone1)
+                    <ul id="login-box" class="list-inline">
+                        <li style="font-size:22px;">
+                            <i style="font-size:22px;color: #3AA04E;" class="fa fa-phone"></i>&nbsp; <b>{{$configuracoes->telefone1}}</b>
+                        </li>
+                    </ul>
+                @endif  
             </div> 
-        </div>         
-    </header> 
+        </div>
 
-    {{--CONTEÚDO DO SITE--}}
-    @yield('content')
-
-    <footer id=top-footer> 
-        <div id=top-footer-content class=container> 
-
-            <div class="widget col-md-2">        
-                <h4>&nbsp;</h4>
-                <div class="content-box row"> 
-                    <div class=widget-content>                        
-                        <p style="text-align: center;">
-                            <img src=""/>
-                        </p>                               
-                    </div> 
+        <header id="main-header">         
+            <div class="header-content container"> 
+                <div class="menu-container">             
+                    <nav id="main-menu"> 
+                        <ul class="main-menu"> 
+                            <li><a href="{{route('web.home')}}" class="current">Início</a></li>
+                            @if (!empty($Links) && $Links->count())                            
+                                @foreach($Links as $menuItem)                            
+                                <li {{($menuItem->children && $menuItem->parent ? 'class=dropdown' : '')}}>
+                                    <a {{($menuItem->target == 1 ? 'target=_blank' : '')}} href="{{($menuItem->tipo == 'Página' ? route('web.pagina', [ 'slug' => ($menuItem->post != null ? $menuItem->PostObject->slug : '#') ]) : $menuItem->url)}}" {{($menuItem->children && $menuItem->parent ? 'class=dropdown-toggle data-toggle=dropdown' : '')}}>{{ $menuItem->titulo }}{!!($menuItem->children && $menuItem->parent ? "<b class=\"caret\"></b>" : '')!!}</a>
+                                    @if( $menuItem->children && $menuItem->parent)
+                                    <ul class="dropdown-menu icon-fa-caret-up submenu-hover">
+                                        @foreach($menuItem->children as $subMenuItem)
+                                        <li><a {{($subMenuItem->target == 1 ? 'target=_blank' : '')}} href="{{($subMenuItem->tipo == 'Página' ? route('web.pagina', [ 'slug' => ($subMenuItem->post != null ? $subMenuItem->PostObject->slug : '#') ]) : $subMenuItem->url)}}">{{ $subMenuItem->titulo }}</a></li>                                        
+                                        @endforeach
+                                    </ul>
+                                    @endif
+                                </li>
+                                @endforeach
+                            @endif
+                            <li><a href="{{route('web.reservar')}}">Reservas</a></li>                          
+                        </ul> 
+                    </nav>   
+                    <div id=main-menu-handle><span></span></div>
                 </div> 
             </div>         
-            
-            <div class="widget col-md-4">
-                 
-                <h4>{{$configuracoes->nomedosite}}</h4> 
-                <div class="content-box row"> 
-                    <div class="widget-content">
-                        <p>
-                            @if($configuracoes->rua)	
-                                <i class="fa fa-map-marker" style="font-size:16px;color:#3AA04E;"></i> {{$configuracoes->rua}}
-                            @endif
-                            @if($configuracoes->num)
-                                , {{$configuracoes->num}}
-                            @endif
-                            @if($configuracoes->bairro)
-                                , {{$configuracoes->bairro}}
-                            @endif
-                            @if($configuracoes->cidade)  
-                                - {{$configuracoes->cidade}}/{{$configuracoes->uf}}
-                            @endif
-                        </p>
+        </header> 
 
-                        <p>
-                            @if($configuracoes->telefone1 && !$configuracoes->telefone2)
-                                <i style="font-size:16px;color: #3AA04E;" class="fa fa-phone"></i> {{$configuracoes->telefone1}}                            
-                            @elseif($configuracoes->telefone1 && $configuracoes->telefone2)
-                                - {{$configuracoes->telefone2}}
-                            @else
-                                <i style="font-size:16px;color: #3AA04E;" class="fa fa-phone"></i> {{$configuracoes->telefone2}}
-                            @endif
-                            @if($configuracoes->telefone3)
-                                <i style="font-size:16px;color: #3AA04E;" class="fa fa-phone"></i> {{$configuracoes->telefone3}}
-                            @endif
-                        </p>
+        {{--CONTEÚDO DO SITE--}}
+        @yield('content')
 
-                        <p>
-                            @if($configuracoes->email)
-                                <i style="font-size:16px;color: #3AA04E;" class="fa fa-envelope"></i> {{$configuracoes->email}}
-                            @endif 
-                            @if($configuracoes->email1)
-                                <i style="font-size:16px;color: #3AA04E;" class="fa fa-envelope"></i> {{$configuracoes->email1}}
-                            @endif
-                        </p>                        
-                          
-                        <p style="margin-top: 10px;">
-                            <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/wifizone.png')}}" width="71" height="41" />
-                        </p>
+        <footer id=top-footer> 
+            <div id=top-footer-content class=container> 
+
+                @if (!empty($selos) && $selos->count() > 0)
+                    @foreach($selos as $selo)
+                        <div class="widget col-md-2">        
+                            <h4>&nbsp;</h4>
+                            <div class="content-box row" style="border-left: none !important;"> 
+                                <div class=widget-content>                        
+                                    <p style="text-align: center;">
+                                        <img src="{{$selo->getimagem()}}" alt="{{$selo->titulo}}" title="{{$selo->titulo}}"/>
+                                    </p>                               
+                                </div> 
+                            </div> 
+                        </div>
+                    @endforeach
+                @endif                     
+                
+                <div class="widget col-md-4">
                     
-                        {{--Footer Social icons--}} 
-                        <div class="social-icons">
-                            @if ($configuracoes->facebook)
-                                <a target="_blank" href="{{$configuracoes->facebook}}" title="Facebook"><img src="{{url('frontend/'.$configuracoes->template.'/assets/images/icon-facebook.png')}}" width="32" height="32" /></a>
-                            @endif
-                            @if ($configuracoes->twitter)
-                                <a target="_blank" href="{{$configuracoes->twitter}}" title="Twitter">{{url('frontend/'.$configuracoes->template.'/assets/images/icon-twitter.png')}}</a>
-                            @endif
-                            @if ($configuracoes->instagram)
-                                <a target="_blank" href="{{$configuracoes->instagram}}" title="Instagram">{{url('frontend/'.$configuracoes->template.'/assets/images/icon-instagran.png')}}</a>
-                            @endif
-                            @if ($configuracoes->linkedin)
-                                <a target="_blank" href="{{$configuracoes->linkedin}}" title="linkedin">{{url('frontend/'.$configuracoes->template.'/assets/images/icon-icon-likedin.png')}}</a>
-                            @endif
-                            @if ($configuracoes->youtube)
-                                <a target="_blank" href="{{$configuracoes->youtube}}" title="Youtube">{{url('frontend/'.$configuracoes->template.'/assets/images/icon-youtube.png')}}</a>
-                            @endif                           
+                    <h4>{{$configuracoes->nomedosite}}</h4> 
+                    <div class="content-box row"> 
+                        <div class="widget-content">
+                            <p>
+                                @if($configuracoes->rua)	
+                                    <i class="fa fa-map-marker" style="font-size:16px;color:#3AA04E;"></i> {{$configuracoes->rua}}
+                                @endif
+                                @if($configuracoes->num)
+                                    , {{$configuracoes->num}}
+                                @endif
+                                @if($configuracoes->bairro)
+                                    , {{$configuracoes->bairro}}
+                                @endif
+                                @if($configuracoes->cidade)  
+                                    - {{$configuracoes->cidade}}/{{$configuracoes->uf}}
+                                @endif
+                            </p>
+
+                            <p>
+                                @if($configuracoes->telefone1)
+                                    <i style="font-size:16px;color: #3AA04E;" class="fa fa-phone"></i> {{$configuracoes->telefone1}}
+                                @endif                            
+                                @if($configuracoes->telefone1 && $configuracoes->telefone2)
+                                    - {{$configuracoes->telefone2}}
+                                @else
+                                    <i style="font-size:16px;color: #3AA04E;" class="fa fa-phone"></i> {{$configuracoes->telefone2}}
+                                @endif
+                                @if($configuracoes->telefone3)
+                                    <i style="font-size:16px;color: #3AA04E;" class="fa fa-phone"></i> {{$configuracoes->telefone3}}
+                                @endif
+                            </p>
+
+                            <p>
+                                @if($configuracoes->email)
+                                    <i style="font-size:16px;color: #3AA04E;" class="fa fa-envelope"></i> {{$configuracoes->email}}
+                                @endif 
+                                @if($configuracoes->email1)
+                                    <i style="font-size:16px;color: #3AA04E;" class="fa fa-envelope"></i> {{$configuracoes->email1}}
+                                @endif
+                            </p>                        
+                            
+                            <p style="margin-top: 10px;">
+                                <img src="{{url('frontend/'.$configuracoes->template.'/assets/images/wifizone.png')}}" width="71" height="41" />
+                            </p>
+                        
+                            {{--Footer Social icons--}} 
+                            <div class="social-icons">
+                                @if ($configuracoes->facebook)
+                                    <a target="_blank" href="{{$configuracoes->facebook}}" title="Facebook"><img src="{{url('frontend/'.$configuracoes->template.'/assets/images/icon-facebook.png')}}" width="32" height="32" /></a>
+                                @endif
+                                @if ($configuracoes->twitter)
+                                    <a target="_blank" href="{{$configuracoes->twitter}}" title="Twitter"><img src="{{url('frontend/'.$configuracoes->template.'/assets/images/icon-twitter.png')}}" width="32" height="32"></a>
+                                @endif
+                                @if ($configuracoes->instagram)
+                                    <a target="_blank" href="{{$configuracoes->instagram}}" title="Instagram"><img src="{{url('frontend/'.$configuracoes->template.'/assets/images/icon-instagran.png')}}" width="32" height="32"></a>
+                                @endif
+                                @if ($configuracoes->linkedin)
+                                    <a target="_blank" href="{{$configuracoes->linkedin}}" title="linkedin"><img src="{{url('frontend/'.$configuracoes->template.'/assets/images/icon-icon-likedin.png')}}" width="32" height="32"></a>
+                                @endif
+                                @if ($configuracoes->youtube)
+                                    <a target="_blank" href="{{$configuracoes->youtube}}" title="Youtube"><img src="{{url('frontend/'.$configuracoes->template.'/assets/images/icon-youtube.png')}}" width="32" height="32"></a>
+                                @endif                           
+                            </div> 
+                        
                         </div> 
-                    
                     </div> 
-                </div> 
-            </div>
-             
+                </div>
+                
             </div> 
-    </footer>         
+        </footer>         
          
-    <footer id="footer"> 
-        {{--Go up Button--}}
-        <div id="go-up"></div>
-    
-        {{--Footer Menu--}}
-        <ul class="footer-menu container"> 
-            <li><a href="{{route('web.home')}}" class="current">Início</a></li>
-            <li><a href="{{route('web.politica')}}" title="Política de Privacidade">Política de Privacidade</a></li>
-            @if (!empty($Links) && $Links->count())                            
-                @foreach($Links as $menuItem)                            
-                    <li {{($menuItem->children && $menuItem->parent ? 'class=dropdown' : '')}}>
-                        <a {{($menuItem->target == 1 ? 'target=_blank' : '')}} href="{{($menuItem->tipo == 'Página' ? route('web.pagina', [ 'slug' => ($menuItem->post != null ? $menuItem->PostObject->slug : '#') ]) : $menuItem->url)}}" {{($menuItem->children && $menuItem->parent ? 'class=dropdown-toggle data-toggle=dropdown' : '')}}>{{ $menuItem->titulo }}{!!($menuItem->children && $menuItem->parent ? "<b class=\"caret\"></b>" : '')!!}</a>
-                        @if( $menuItem->children && $menuItem->parent)
-                        <ul class="dropdown-menu icon-fa-caret-up submenu-hover">
-                            @foreach($menuItem->children as $subMenuItem)
-                            <li><a {{($subMenuItem->target == 1 ? 'target=_blank' : '')}} href="{{($subMenuItem->tipo == 'Página' ? route('web.pagina', [ 'slug' => ($subMenuItem->post != null ? $subMenuItem->PostObject->slug : '#') ]) : $subMenuItem->url)}}">{{ $subMenuItem->titulo }}</a></li>                                        
-                            @endforeach
-                        </ul>
-                        @endif
-                    </li>
-                @endforeach
-            @endif
-            <li><a href="{{route('web.reservar')}}" title="Pré-Reserva">Pré-Reserva</a></li>
-            <li><a href="{{route('web.atendimento')}}" title="Atendimento">Atendimento</a></li> 
-        </ul>  
-    
-        {{--Copyright--}}
-        <div class="copyright"> 
-            &copy; {{$configuracoes->ano_de_inicio}} - {{date('Y')}}  {{$configuracoes->nomedosite}} - Todos os direitos reservados. 
-            <p class="font-accent text-right">
-                <span class="small text-silver-dark">Feito com <i style="color:red;" class="fa fa-heart"></i> por <a style="color:#fff;" target="_blank" href="{{env('DESENVOLVEDOR_URL')}}">{{env('DESENVOLVEDOR')}}</a></span>
-            </p>
-        </div>     
-    
-    </footer>
+        <footer id="footer"> 
+            {{--Go up Button--}}
+            <div id="go-up"></div>
+        
+            {{--Footer Menu--}}
+            <ul class="footer-menu container"> 
+                @if (!empty($Links) && $Links->count())                            
+                    @foreach($Links as $menuItem)                            
+                        <li {{($menuItem->children && $menuItem->parent ? 'class=dropdown' : '')}}>
+                            <a {{($menuItem->target == 1 ? 'target=_blank' : '')}} href="{{($menuItem->tipo == 'Página' ? route('web.pagina', [ 'slug' => ($menuItem->post != null ? $menuItem->PostObject->slug : '#') ]) : $menuItem->url)}}" {{($menuItem->children && $menuItem->parent ? 'class=dropdown-toggle data-toggle=dropdown' : '')}}>{{ $menuItem->titulo }}{!!($menuItem->children && $menuItem->parent ? "<b class=\"caret\"></b>" : '')!!}</a>
+                            @if( $menuItem->children && $menuItem->parent)
+                            <ul class="dropdown-menu icon-fa-caret-up submenu-hover">
+                                @foreach($menuItem->children as $subMenuItem)
+                                <li><a {{($subMenuItem->target == 1 ? 'target=_blank' : '')}} href="{{($subMenuItem->tipo == 'Página' ? route('web.pagina', [ 'slug' => ($subMenuItem->post != null ? $subMenuItem->PostObject->slug : '#') ]) : $subMenuItem->url)}}">{{ $subMenuItem->titulo }}</a></li>                                        
+                                @endforeach
+                            </ul>
+                            @endif
+                        </li>
+                    @endforeach
+                @endif
+                <li><a href="{{route('web.reservar')}}" title="Pré-Reserva">Pré-Reserva</a></li>
+                <li><a href="{{route('web.atendimento')}}" title="Atendimento">Atendimento</a></li> 
+                <li><a href="{{route('web.politica')}}" title="Política de Privacidade">Política de Privacidade</a></li>
+            </ul>  
+        
+            {{--Copyright--}}
+            <div class="copyright"> 
+                &copy; {{$configuracoes->ano_de_inicio}} - {{date('Y')}}  {{$configuracoes->nomedosite}} - Todos os direitos reservados. 
+                <p class="font-accent text-center" style="margin-top: 5px;">
+                    <span class="small text-silver-dark">Feito com <i style="color:red;" class="fa fa-heart"></i> por <a style="color:#fff;" target="_blank" href="{{env('DESENVOLVEDOR_URL')}}">{{env('DESENVOLVEDOR')}}</a></span>
+                </p>
+            </div>     
+        
+        </footer>
+
+    </div>
 
     <!-- JS Includes --> <!-- Essential JS files ( DO NOT REMOVE THEM ) --> 
     <script type="text/javascript" src="{{url('frontend/'.$configuracoes->template.'/assets/js/jquery-1.11.1.min.js')}}"></script> 

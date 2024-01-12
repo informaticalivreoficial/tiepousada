@@ -46,6 +46,9 @@ class AppServiceProvider extends ServiceProvider
 
         $gbGallery = \App\Models\Galeria::available()->inRandomOrder()->limit(3)->get(); 
         View()->share('gbGallery', $gbGallery);
+
+        $selos = \App\Models\Selo::orderBy('created_at', 'DESC')->available()->limit(4)->get(); 
+        View()->share('selos', $selos);
         
         Paginator::useBootstrap();
     }

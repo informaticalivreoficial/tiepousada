@@ -1,6 +1,6 @@
 @extends('adminlte::page')
 
-@section('title', 'Editar Slide')
+@section('title', 'Cadastrar Selo')
 
 @php
 $config = [
@@ -27,13 +27,13 @@ $config = [
 @section('content_header')
 <div class="row mb-2">
     <div class="col-sm-6">
-        <h1><i class="fas fa-search mr-2"></i>Editar Slide</h1>
+        <h1><i class="fas fa-search mr-2"></i>Cadastrar novo Selo</h1>
     </div>
     <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="{{route('home')}}">Painel de Controle</a></li>
-            <li class="breadcrumb-item"><a href="{{route('slides.index')}}">Slides</a></li>
-            <li class="breadcrumb-item active">Editar Slide</li>
+            <li class="breadcrumb-item"><a href="{{route('selos.index')}}">Selos</a></li>
+            <li class="breadcrumb-item active">Cadastrar novo Selo</li>
         </ol>
     </div>
 </div> 
@@ -48,20 +48,13 @@ $config = [
                 {{ $error }}
                 @endmessage
             @endforeach
-        @endif 
-
-        @if(session()->exists('message'))
-            @message(['color' => session()->get('color')])
-            {{ session()->get('message') }}
-            @endmessage
-        @endif
+        @endif         
     </div>            
 </div>   
                     
             
-<form action="{{ route('slides.update', ['slide' => $slide->id]) }}" method="post" enctype="multipart/form-data" autocomplete="off">
-@csrf
-@method('PUT')          
+<form action="{{ route('selos.store') }}" method="post" enctype="multipart/form-data" autocomplete="off">
+@csrf          
 <div class="row">            
     <div class="col-12">
         <div class="card card-teal card-outline"> 
@@ -69,67 +62,41 @@ $config = [
                 <div class="tab-content" id="custom-tabs-four-tabContent">
                     <div class="tab-pane fade show active" id="custom-tabs-four-home" role="tabpanel" aria-labelledby="custom-tabs-four-home-tab">
                        <div class="row mb-4">
-                            <div class="col-12 col-sm-8 col-md-6 col-lg-6">   
+                            <div class="col-12 col-sm-12 col-md-4 col-lg-4">   
                                 <div class="form-group">
                                     <label class="labelforms text-muted"><b>*Título</b></label>
-                                    <input type="text" class="form-control" name="titulo" value="{{old('titulo') ?? $slide->titulo}}">
+                                    <input type="text" class="form-control" name="titulo" value="{{old('titulo')}}">
                                 </div>                                                    
                             </div>
-                            <div class="col-12 col-sm-4 col-md-3 col-lg-3">
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">
                                 <div class="form-group">
                                     <label class="labelforms text-muted"><b>Status:</b></label>
                                     <select name="status" class="form-control">
-                                        <option value="1" {{ (old('status') == '1' ? 'selected' : ($slide->status == 1 ? 'selected' : '')) }}>Publicado</option>
-                                        <option value="0" {{ (old('status') == '0' ? 'selected' : ($slide->status == 0 ? 'selected' : '')) }}>Rascunho</option>
+                                        <option value="1" {{ (old('status') == '1' ? 'selected' : '') }}>Publicado</option>
+                                        <option value="0" {{ (old('status') == '0' ? 'selected' : '') }}>Rascunho</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-12 col-sm-4 col-md-3 col-lg-3"> 
-                                <div class="form-group">
-                                    <label class="labelforms text-muted"><b>Expira</b></label>
-                                    <div class="input-group date" id="expira">
-                                        <input type="text" class="form-control datepicker-here" data-language='pt-BR' name="expira" value="{{ old('expira') ?? Carbon\Carbon::parse($slide->expira)->format('d/m/Y') }}"/>
-                                        <div class="input-group-append" data-target="#expira" data-toggle="datetimepicker">
-                                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12 col-sm-8 col-md-3 col-lg-3">   
-                                <div class="form-group">
-                                    <label class="labelforms text-muted"><b>Categoria</b></label>
-                                    <input type="text" class="form-control" name="categoria" value="{{old('categoria') ?? $slide->categoria}}">
-                                </div>                                                    
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-6 col-lg-6">   
+                            </div>                          
+                            <div class="col-12 col-sm-6 col-md-4 col-lg-4">   
                                 <div class="form-group">
                                     <label class="labelforms text-muted"><b>Url</b> <small class="text-info">(Ex: http://www.dominio.com)</small></label>
-                                    <input type="text" class="form-control" name="link" value="{{old('link') ?? $slide->link}}">
+                                    <input type="text" class="form-control" name="link" value="{{old('link')}}">
                                 </div>                                                    
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-3 col-lg-3">
-                                <div class="form-group">
-                                    <label class="labelforms text-muted"><b>Destino:</b></label>
-                                    <select name="target" class="form-control">
-                                        <option value="1" {{ (old('target') == '1' ? 'selected' : ($slide->target == 1 ? 'selected' : '')) }}>Nova Janela</option>
-                                        <option value="0" {{ (old('target') == '0' ? 'selected' : ($slide->target == 0 ? 'selected' : '')) }}>Mesma Janela</option>
-                                    </select>
-                                </div>
-                            </div>                                                               
+                            </div>                                                      
                         </div>
                         <div class="row">  
                             <div class="col-12 mb-1"> 
                                 <div class="form-group">
-                                    <label class="labelforms text-muted"><b>Imagem: </b>(1920X650) pixels</label>
+                                    <label class="labelforms text-muted"><b>Imagem: </b>(150X100) pixels</label>
                                     <div class="thumb_user_admin">                                                    
-                                        <img id="preview1" src="{{$slide->getimagem()}}" alt="{{ old('titulo') ?? $slide->titulo }}" title="{{ old('titulo') ?? $slide->titulo }}"/>
+                                        <img id="preview1" src="{{url(asset('backend/assets/images/image.jpg'))}}" alt="{{ old('titulo') }}" title="{{ old('titulo') }}"/>
                                         <input id="img-input" type="file" name="imagem">
                                     </div>
                                 </div>
                             </div>                                  
                             <div class="col-12">   
                                 <label class="labelforms text-muted"><b>Descrição:</b></label>
-                                <x-adminlte-text-editor name="content" v placeholder="Descrição do slide..." :config="$config">{{ old('content') ?? $slide->content }}</x-adminlte-text-editor>                                                      
+                                <x-adminlte-text-editor name="content" v placeholder="Descrição do slide..." :config="$config">{{ old('content') }}</x-adminlte-text-editor>                                                      
                             </div>
                         </div>                               
                         
@@ -138,7 +105,7 @@ $config = [
                 </div>
                 <div class="row text-right">
                     <div class="col-12 mb-4">
-                        <button type="submit" class="btn btn-lg btn-success" title="Atualizar Agora"><i class="nav-icon fas fa-check mr-2"></i> Atualizar Agora</button>
+                        <button type="submit" class="btn btn-lg btn-success" title="Cadastrar Agora"><i class="nav-icon fas fa-check mr-2"></i> Cadastrar Agora</button>
                     </div>
                 </div>  
                                         
@@ -174,7 +141,7 @@ $config = [
             max-width: 100%;          
         }
     </style>
-@stop
+    @stop
 
 @section('js')
 <script src="{{url(asset('backend/plugins/airdatepicker/js/datepicker.min.js'))}}"></script>

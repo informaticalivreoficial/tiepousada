@@ -294,9 +294,9 @@ return [
             ]
         ],
         [
-            'text' => 'Empresas',
-            'url'  => 'admin/empresas',
-            'icon' => 'fas fa-industry',
+            'text' => 'Selos',
+            'url'  => 'admin/selos',
+            'icon' => 'fas fa-images',
         ],
         [
             'text' => 'Posts',            
