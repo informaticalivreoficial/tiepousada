@@ -25,8 +25,8 @@
     <section id="main-booking-form"> 
         <div id="main-booking-form-container">        
             <div class="search-row"> 
-                <form class="search-form horizontal container" action="" method="post">
-                
+                <form class="search-form horizontal container" action="{{route('web.reservar')}}" method="post">
+                @csrf
                 <div class="search-fields col-xs-6 col-md-3"> 
                     <input name="checkini" id="j_data" autocomplete="off" placeholder="Check-in" class="datepicker-fields check-in" type="text" value=""/>                   
                     <i class="fa fa-calendar"></i>
