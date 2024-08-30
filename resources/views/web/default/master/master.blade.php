@@ -51,10 +51,10 @@
                 <div id="top-logo">
                     <img style="z-index:1;margin-bottom: -15px;" src="{{$configuracoes->getLogomarca()}}" alt="{{$configuracoes->nomedosite}}" />     
                 </div>
-                @if($configuracoes->telefone1)
+                @if($configuracoes->whatsapp)
                     <ul class="list-inline">
                         <li style="font-size:22px !important;">
-                            <i style="font-size:22px;color: #3AA04E;" class="fa fa-phone"></i>&nbsp; <b>{{$configuracoes->telefone1}}</b>
+                            <a class="sharezap" href="#" target="_blank"><i style="font-size:22px;color: #3AA04E;" class="fa fa-whatsapp"></i>&nbsp; <b>{{$configuracoes->whatsapp}}</b></a>
                         </li>
                     </ul>
                 @endif  
