@@ -1,4 +1,10 @@
-.whats a{
+.whats a:link{
+    color: #6f3532 !important;
+}
+.whats a:visited{
+    color: #6f3532 !important;
+}
+.whats a:active{
     color: #6f3532 !important;
 }
 
