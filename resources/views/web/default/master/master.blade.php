@@ -36,7 +36,7 @@
 
     <!-- Styles Renato ===================== -->
     <link rel="stylesheet" id="main-style-file" type="text/css" href="{{url('frontend/'.$configuracoes->template.'/assets/css/renato.css')}}"/>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     @hasSection('css')
         @yield('css')
     @endif
@@ -136,13 +136,22 @@
                                 @endif                            
                                 @if($configuracoes->telefone1 && $configuracoes->telefone2)
                                     - {{$configuracoes->telefone2}}
-                                @else
+                                @endif
+                                @if ($configuracoes->telefone2 && $configuracoes->telefone1 == null)
                                     <i style="font-size:16px;color: #3AA04E;" class="fa fa-phone"></i> {{$configuracoes->telefone2}}
                                 @endif
                                 @if($configuracoes->telefone3)
                                     <i style="font-size:16px;color: #3AA04E;" class="fa fa-phone"></i> {{$configuracoes->telefone3}}
                                 @endif
                             </p>
+
+                            @if ($configuracoes->whatsapp)
+                                <p class="whats">
+                                    <a class="sharezap" href="#" target="_blank">
+                                        <i style="font-size:16px;color: #3AA04E;" class="fa fa-whatsapp"></i> {{$configuracoes->whatsapp}}
+                                    </a>
+                                </p> 
+                            @endif
 
                             <p>
                                 @if($configuracoes->email)
@@ -314,9 +323,37 @@
         });
     </script>
 
-    @hasSection('js')
-        @yield('js')
-    @endif    
+    <script>
+        $(document).ready(function() {
+            var isMobile = {
+                Android: function() {
+                    return navigator.userAgent.match(/Android/i);
+                },
+                BlackBerry: function() {
+                    return navigator.userAgent.match(/BlackBerry/i);
+                },
+                iOS: function() {
+                    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+                },
+                Opera: function() {
+                    return navigator.userAgent.match(/Opera Mini/i);
+                },
+                Windows: function() {
+                    return navigator.userAgent.match(/IEMobile/i);
+                },
+                any: function() {
+                    return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+                }
+            };
+            if( isMobile.any() ) {
+                $('.sharezap').attr("href", "https://api.whatsapp.com/send?l=pt_pt&phone="+{{ \App\Helpers\Renato::limpatelefone($configuracoes->whatsapp) }}+"&text=Atendimento "+"{{$configuracoes->nomedosite}}");
+                return true; // está utilizando celular
+            }else{
+                $('.sharezap').attr("href", "https://web.whatsapp.com/send?l=pt_pt&phone="+{{ \App\Helpers\Renato::limpatelefone($configuracoes->whatsapp) }}+"&text=Atendimento "+"{{$configuracoes->nomedosite}}");
+                return false; // não é celular
+            }
+        });
+    </script>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id={{$configuracoes->tagmanager_id}}"></script>
@@ -327,6 +364,12 @@
     
         gtag('config', '{{$configuracoes->tagmanager_id}}');
     </script>
+
+    @hasSection('js')
+        @yield('js')
+    @endif    
+
+    
 
 </body>
 </html>
