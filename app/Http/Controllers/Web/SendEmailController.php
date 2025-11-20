@@ -57,15 +57,15 @@ class SendEmailController extends Controller
                 'mensagem' => $request->mensagem
             ];
 
-            $retorno = [
-                'sitename' => $this->configService->getConfig()->nomedosite,
-                'siteemail' => env('MAIL_FROM_ADDRESS'),
-                'reply_name' => $request->nome,
-                'reply_email' => $request->email
-            ];
+            // $retorno = [
+            //     'sitename' => $this->configService->getConfig()->nomedosite,
+            //     'siteemail' => env('MAIL_FROM_ADDRESS'),
+            //     'reply_name' => $request->nome,
+            //     'reply_email' => $request->email
+            // ];
             
             Mail::send(new Atendimento($data));
-            Mail::send(new AtendimentoRetorno($retorno));
+            //Mail::send(new AtendimentoRetorno($retorno));
             
             $json = "Obrigado {$request->nome} sua mensagem foi enviada com sucesso!"; 
             return response()->json(['sucess' => $json]);
@@ -154,12 +154,12 @@ class SendEmailController extends Controller
             'mensagem' => $request->mensagem, 
         ];
         
-        $retorno = [
-            'sitename' => $this->configService->getConfig()->nomedosite,
-            'siteemail' => env('MAIL_FROM_ADDRESS'),
-            'reply_name' => $request->nome,
-            'reply_email' => $request->email
-        ];
+        // $retorno = [
+        //     'sitename' => $this->configService->getConfig()->nomedosite,
+        //     'siteemail' => env('MAIL_FROM_ADDRESS'),
+        //     'reply_name' => $request->nome,
+        //     'reply_email' => $request->email
+        // ];
         
         $user = [
             'name' => $request->nome,
@@ -194,7 +194,7 @@ class SendEmailController extends Controller
         $reservaCreate->save();
 
         Mail::send(new ReservaSend($data));
-        Mail::send(new ReservaRetorno($retorno));   
+        //Mail::send(new ReservaRetorno($retorno));   
         
         $json = "Obrigado {$request->nome} sua solicitação de pré-reserva foi enviada com sucesso!"; 
         return response()->json(['sucess' => $json]);

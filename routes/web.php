@@ -14,7 +14,6 @@ use App\Http\Controllers\Admin\{
     GaleriaController,
     MenuController,
     NewsletterController,
-    ParceiroController,
     ReservaController,
     SeloController,
     SitemapController,
@@ -123,20 +122,7 @@ Route::prefix('admin')->middleware('auth')->group( function(){
     Route::get('slides/{slide}/edit', [SlideController::class, 'edit'])->name('slides.edit');
     Route::get('slides/create', [SlideController::class, 'create'])->name('slides.create');
     Route::post('slides/store', [SlideController::class, 'store'])->name('slides.store');
-    Route::get('slides', [SlideController::class, 'index'])->name('slides.index');
-
-    //******************** Parceiros *********************************************/
-    Route::match(['post', 'get'], 'parceiros/fetchCity', [ParceiroController::class, 'fetchCity'])->name('parceiros.fetchCity');
-    Route::get('parceiros/set-status', [ParceiroController::class, 'parceiroSetStatus'])->name('parceiros.parceiroSetStatus');
-    Route::post('parceiros/image-set-cover', [ParceiroController::class, 'imageSetCover'])->name('parceiros.imageSetCover');
-    Route::delete('parceiros/image-remove', [ParceiroController::class, 'imageRemove'])->name('parceiros.imageRemove');
-    Route::delete('parceiros/deleteon', [ParceiroController::class, 'deleteon'])->name('parceiros.deleteon');
-    Route::get('parceiros/delete', [ParceiroController::class, 'delete'])->name('parceiros.delete');
-    Route::put('parceiros/{id}', [ParceiroController::class, 'update'])->name('parceiros.update');
-    Route::get('parceiros/{id}/edit', [ParceiroController::class, 'edit'])->name('parceiros.edit');
-    Route::get('parceiros/create', [ParceiroController::class, 'create'])->name('parceiros.create');
-    Route::post('parceiros/store', [ParceiroController::class, 'store'])->name('parceiros.store');
-    Route::get('parceiros', [ParceiroController::class, 'index'])->name('parceiros.index');
+    Route::get('slides', [SlideController::class, 'index'])->name('slides.index');    
 
     //******************** Sitemap *********************************************/
     Route::get('gerarxml', [SitemapController::class, 'gerarxml'])->name('admin.gerarxml');
