@@ -36,7 +36,7 @@ class ReservaSend extends Mailable
             from: new Address(env('MAIL_FROM_ADDRESS'), env('APP_NAME')), // Remetente
             to: [new Address('contato@pousadadotie.com.br', env('APP_NAME'))], // Destinatário                 
             replyTo: [
-                new Address($this->data['reply_email'], $this->data['reply_name']),
+                new Address($this->data['reply_email'] ?? 'no-reply@pousadadotie.com.br', $this->data['reply_name'] ?? 'Visitante'),
             ],
             bcc: env('MAIL_FROM_ADDRESS'), // Cópia oculta (opcional)
         );
@@ -72,30 +72,5 @@ class ReservaSend extends Mailable
     {
         return [];
     }
-
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
-    // public function build()
-    // {
-    //     return $this->replyTo($this->data['reply_email'], $this->data['reply_name'])
-    //         ->to($this->data['siteemail'], $this->data['sitename'])
-    //         //->cc('')
-    //         ->bcc('atendimento@ubatubatimes.com.br')
-    //         ->from($this->data['siteemail'], $this->data['sitename'])
-    //         ->subject('✔️ Pré-reserva: ' . $this->data['reply_name'])
-    //         ->markdown('emails.reserva', [
-    //             'nome' => $this->data['reply_name'],
-    //             'email' => $this->data['reply_email'],
-    //             'telefone' => $this->data['telefone'],
-    //             'checkin' => $this->data['checkin'],
-    //             'checkout' => $this->data['checkout'],
-    //             'adultos' => $this->data['adultos'],
-    //             'criancas' => $this->data['criancas'],
-    //             'codigo' => $this->data['codigo'],
-    //             'mensagem' => $this->data['mensagem']
-    //     ]);
-    // }
+    
 }
