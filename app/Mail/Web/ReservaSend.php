@@ -29,48 +29,60 @@ class ReservaSend extends Mailable
     /**
      * Get the message envelope.
      */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: '✅ Pré-reserva: ' . $this->data['reply_name'],  
-            from: new Address(env('MAIL_FROM_ADDRESS'), env('APP_NAME')), // Remetente
-            to: [new Address('contato@pousadadotie.com.br', env('APP_NAME'))], // Destinatário                 
-            replyTo: [
-                new Address($this->data['reply_email'] ?? 'no-reply@pousadadotie.com.br', $this->data['reply_name'] ?? 'Visitante'),
-            ],
-            bcc: env('MAIL_FROM_ADDRESS'), // Cópia oculta (opcional)
-        );
-    }
+    // public function envelope(): Envelope
+    // {
+    //     return new Envelope(
+    //         subject: '✅ Pré-reserva: ' . $this->data['reply_name'],  
+    //         from: new Address(env('MAIL_FROM_ADDRESS'), env('APP_NAME')), // Remetente
+    //         to: [new Address('contato@pousadadotie.com.br', env('APP_NAME'))], // Destinatário                 
+    //         replyTo: [
+    //             new Address($this->data['reply_email'] ?? 'no-reply@pousadadotie.com.br', $this->data['reply_name'] ?? 'Visitante'),
+    //         ],
+    //         bcc: env('MAIL_FROM_ADDRESS'), // Cópia oculta (opcional)
+    //     );
+    // }
 
     /**
      * Get the message content definition.
      */
-    public function content(): Content
-    {
-        return new Content(
-            markdown: 'emails.reserva',
-            with:[
-                'nome' => $this->data['reply_name'],
-                'email' => $this->data['reply_email'],
-                'telefone' => $this->data['telefone'],
-                'checkin' => $this->data['checkin'],
-                'checkout' => $this->data['checkout'],
-                'adultos' => $this->data['adultos'],
-                'criancas' => $this->data['criancas'],
-                'codigo' => $this->data['codigo'],
-                'mensagem' => $this->data['mensagem']
-            ]
-        );
-    }
+    // public function content(): Content
+    // {
+    //     return new Content(
+    //         markdown: 'emails.reserva',
+    //         with:[
+    //             'nome' => $this->data['reply_name'],
+    //             'email' => $this->data['reply_email'],
+    //             'telefone' => $this->data['telefone'],
+    //             'checkin' => $this->data['checkin'],
+    //             'checkout' => $this->data['checkout'],
+    //             'adultos' => $this->data['adultos'],
+    //             'criancas' => $this->data['criancas'],
+    //             'codigo' => $this->data['codigo'],
+    //             'mensagem' => $this->data['mensagem']
+    //         ]
+    //     );
+    // }
     
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
-    public function attachments(): array
+    public function build()
     {
-        return [];
+        return $this
+            ->from(env('MAIL_FROM_ADDRESS'), env('APP_NAME'))
+            ->to('contato@pousadadotie.com.br', env('APP_NAME'))
+            ->replyTo($this->data['reply_email'], $this->data['reply_name'])
+            ->bcc(env('MAIL_FROM_ADDRESS'))
+            ->subject('✅ Pré-reserva: ' . $this->data['reply_name'])
+            ->view('emails.reserva') // ← HTML direto
+            ->with([
+                'nome'     => $this->data['reply_name'],
+                'email'    => $this->data['reply_email'],
+                'telefone' => $this->data['telefone'],
+                'checkin'  => $this->data['checkin'],
+                'checkout' => $this->data['checkout'],
+                'adultos'  => $this->data['adultos'],
+                'criancas' => $this->data['criancas'],
+                'codigo'   => $this->data['codigo'],
+                'mensagem' => $this->data['mensagem'],
+            ]);
     }
     
 }
