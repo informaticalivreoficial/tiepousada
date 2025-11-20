@@ -123,14 +123,16 @@ class SendEmailController extends Controller
             return response()->json(['error' => $json]);
         }
         
-        if(Carbon::createFromFormat('d/m/Y', $request->checkin)->lt(Carbon::parse(now())->format('Y-m-d'))){
-            $json = "Você selecionou uma <strong>Data do Check In</strong> inválida!";
-            return response()->json(['error' => $json]);
+        $checkin = Carbon::createFromFormat('d/m/Y', $request->checkin);
+        $checkout = Carbon::createFromFormat('d/m/Y', $request->checkout);
+        $today = Carbon::today();
+
+        if ($checkin->lt($today)) {
+            return response()->json(['error' => "Você selecionou uma <strong>Data do Check In</strong> inválida!"]);
         }
-        
-        if(Carbon::createFromFormat('d/m/Y', $request->checkout)->lt(Carbon::parse(now())->format('Y-m-d'))){
-            $json = "Você selecionou uma <strong>Data do Check Out</strong> inválida!";
-            return response()->json(['error' => $json]);
+
+        if ($checkout->lt($today)) {
+            return response()->json(['error' => "Você selecionou uma <strong>Data do Check Out</strong> inválida!"]);
         }
 
         if($request->num_adultos == ''){
